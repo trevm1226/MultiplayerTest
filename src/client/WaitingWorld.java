@@ -5,7 +5,7 @@ import mayflower.Mayflower;
 import mayflower.MayflowerImage;
 import mayflower.World;
 
-public class ChooseAvatarWorld extends GameWorld {
+public class WaitingWorld extends GameWorld {
     private Player p;
     private InputManager input;
     private ColorOption co1;
@@ -13,7 +13,7 @@ public class ChooseAvatarWorld extends GameWorld {
     private ColorOption co3;
     private ColorOption co4;
 
-    public ChooseAvatarWorld(InputManager in)
+    public WaitingWorld(InputManager in)
     {
         super(in);
         input = new InputManager();
