@@ -23,7 +23,7 @@ public class ServerGame extends MayflowerHeadless
     {
         super("Server", 800, 600);
         actors = new HashMap<Integer, Actor>();
-        player = new Player();
+        player = new Player(1);
         numPlayers = 0;
         serv = server;
         world = new ServerWorld(server);
@@ -33,8 +33,8 @@ public class ServerGame extends MayflowerHeadless
 
     public void process(int i, String s)
     {
-        Actor actor = actors.get(i);
-
+        Actor actor = new Player(i);
+        System.out.println(actor.toString());
         //if(!"".equals(s)){
            // System.out.println(s);
        // }
@@ -59,7 +59,9 @@ public class ServerGame extends MayflowerHeadless
                 case"pickedcolor":
                     String color = split[1];
                     player.setColor(color);
-
+                    serv.send("changeWorld:waiting:" + player.getColor());
+                    break;
+                case"worldchanged":
                     numPlayers++;
                     System.out.println("num players:" + numPlayers);
                     if(numPlayers >= 3){
@@ -83,11 +85,7 @@ public class ServerGame extends MayflowerHeadless
 
     public void leave(int i)
     {
-        Actor actor = actors.get(i);
-        if(null != actor)
-        {
-            world.removeObject(actor);
-        }
+
     }
 
     @Override

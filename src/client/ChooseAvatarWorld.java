@@ -15,7 +15,7 @@ public class ChooseAvatarWorld extends GameWorld {
     public ChooseAvatarWorld(InputManager im){
         super(im);
         input = im;
-        p = new server.Player();
+        p = new server.Player(1);
         setBackground("rsrc/background.png");
         showText("Choose Avatar",250,100);
         co1 = new ColorOption("red");
@@ -50,7 +50,7 @@ public class ChooseAvatarWorld extends GameWorld {
         }
         public void OnClick(){
             input.send("pickedcolor " + color);
-            Mayflower.setWorld(new WaitingWorld(input,color));
+            //Mayflower.setWorld(new WaitingWorld(input,color));
         }
     }
 }

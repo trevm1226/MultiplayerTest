@@ -2,7 +2,7 @@ package client;
 
 import mayflower.Actor;
 import mayflower.net.Client;
-
+import mayflower.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,16 +30,24 @@ public class GameClient extends Client implements GameMode
     @Override
     public void process(String s)
     {
-
-
         List<Actor> actors = new LinkedList<Actor>();
         String[] parts = s.split(":");
         if(!"".equals(parts[0])){
             System.out.println("Message From Server: " + s);
 
             switch(parts[0]){
+
+                case "changeWorld":
+                    System.out.println(parts[1]);
+                    System.out.println(parts[2]);
+                    if (parts[1].equals("waiting")){
+                        Mayflower.setWorld(new WaitingWorld(new InputManager(), parts[2]));
+                        send("worldchanged");
+                    }
+                    break;
+
                 case "updateLobby":
-                    if(world instanceof WaitingWorld || world instanceof ChooseAvatarWorld){
+                    if(world instanceof WaitingWorld){
                         System.out.println(parts[1]);
                         world.showText(parts[1] + "/3", 250, 250);
                     }
