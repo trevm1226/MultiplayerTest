@@ -1,13 +1,15 @@
 package server;
 
-import client.Player;
+import client.GameClient;
 import mayflower.Actor;
 import mayflower.Direction;
 import mayflower.MayflowerHeadless;
 import mayflower.World;
 import mayflower.net.Server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServerGame extends MayflowerHeadless
@@ -15,24 +17,31 @@ public class ServerGame extends MayflowerHeadless
     private Map<Integer, Actor> actors;
     private ServerWorld world;
     private Player player;
+    private Server serv;
     private int numPlayers;
-
     public ServerGame(Server server)
     {
         super("Server", 800, 600);
         actors = new HashMap<Integer, Actor>();
         player = new Player();
-
+        numPlayers = 0;
+        serv = server;
         world = new ServerWorld(server);
         this.setWorld(world);
+
     }
 
     public void process(int i, String s)
     {
         Actor actor = actors.get(i);
+
+        //if(!"".equals(s)){
+           // System.out.println(s);
+       // }
         String[] split = s.split(" ");
         if(actor != null)
         {
+            System.out.println(split[0]);
             switch(split[0])
             {
                 case "up":
@@ -47,14 +56,21 @@ public class ServerGame extends MayflowerHeadless
                 case "right":
                     actor.setRotation(Direction.EAST);
                     break;
-                case "picked":
+                case"pickedcolor":
                     String color = split[1];
                     player.setColor(color);
+
                     numPlayers++;
-                    if(numPlayers >= 4)
-                    {
-                        //start world
+                    System.out.println("num players:" + numPlayers);
+                    if(numPlayers >= 3){
+                        //set world to play
                     }
+                    else{
+                        System.out.println(numPlayers);
+                        System.out.println("players " + numPlayers);
+                        serv.send("updateLobby:" + numPlayers);
+                    }
+                    break;
             }
             //actor.move(10);
         }
@@ -62,12 +78,7 @@ public class ServerGame extends MayflowerHeadless
 
     public void join(int i)
     {
-        Actor actor = new BoxActor();
-        int x = (int)(Math.random() * 700) + 50;
-        int y = (int)(Math.random() * 500) + 50;
-        world.addObject(actor, x, y);
 
-        actors.put(i, actor);
     }
 
     public void leave(int i)

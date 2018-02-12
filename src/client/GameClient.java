@@ -30,11 +30,24 @@ public class GameClient extends Client implements GameMode
     @Override
     public void process(String s)
     {
-        //System.out.println("Message From Server: " + s);
+
 
         List<Actor> actors = new LinkedList<Actor>();
         String[] parts = s.split(":");
-        for(String part : parts)
+        if(!"".equals(parts[0])){
+            System.out.println("Message From Server: " + s);
+
+            switch(parts[0]){
+                case "updateLobby":
+                    if(world instanceof WaitingWorld || world instanceof ChooseAvatarWorld){
+                        System.out.println(parts[1]);
+                        world.showText(parts[1] + "/3", 250, 250);
+                    }
+                    break;
+            }
+        }
+
+        /* for(String part : parts)
         {
             if(!"".equals(part)) {
                 String[] parts2 = part.split(",");
@@ -46,6 +59,7 @@ public class GameClient extends Client implements GameMode
                 actors.add(new GameActor(img, x, y, r));
             }
         }
+         **/
         if(null != world) {
             world.update(actors);
         }

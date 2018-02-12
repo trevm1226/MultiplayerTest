@@ -11,7 +11,6 @@ public class GameWorld extends World
 {
     private InputManager im;
     private Queue<List<Actor>> updates;
-
     public GameWorld(InputManager im)
     {
         this.im = im;
@@ -22,23 +21,19 @@ public class GameWorld extends World
     {
         updates.add(actors);
     }
-
-    private void redraw()
-    {
-        if(updates.isEmpty())
-            return;
-
+    private void redraw(){
+        if(updates.isEmpty()) return;
         List<Actor> actors = updates.remove();
 
         //remove all GameActor objects
         this.removeObjects(this.getObjects(GameActor.class));
 
         //add new objects
-        for(Actor actor : actors)
-        {
-            this.addObject(actor, actor.getX(), actor.getY());
+        for(Actor a : actors){
+            this.addObject(a, a.getX(), a.getY());
         }
     }
+
 
     @Override
     public void act()

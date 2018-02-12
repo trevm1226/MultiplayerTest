@@ -2,6 +2,7 @@ package client;
 
 import mayflower.Mayflower;
 import mayflower.net.Client;
+import mayflower.net.Server;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +20,6 @@ public class InputManager
         client = new GameClient();
     }
 
-    public void send(String message)
-    {
-        System.out.println(message);
-        client.send(message);
-    }
-
     public InputManager(GameMode mode)
     {
         this();
@@ -34,7 +29,14 @@ public class InputManager
     public void setGameMode(GameMode mode)
     {
         this.mode = mode;
+
     }
+
+    public void send(String message){
+        System.out.println(message);
+        client.send(message);
+    }
+
 
     public void setKeyMap(Map<Integer, String> map)
     {
