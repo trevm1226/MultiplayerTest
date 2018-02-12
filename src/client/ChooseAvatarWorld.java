@@ -50,7 +50,7 @@ public class ChooseAvatarWorld extends GameWorld {
         }
         public void OnClick(){
             input.send("pickedcolor " + color);
-            //Mayflower.setWorld(new WaitingWorld(input,color));
+            Mayflower.setWorld(new WaitingWorld(input,color));
         }
     }
 }
