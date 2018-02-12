@@ -1,16 +1,17 @@
 package server;
 
+import client.GameActor;
 import client.Player;
-import mayflower.Actor;
-import mayflower.Direction;
-import mayflower.MayflowerHeadless;
-import mayflower.World;
+import com.sun.org.apache.xpath.internal.SourceTree;
+import mayflower.*;
 import mayflower.net.Server;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class ServerGame extends MayflowerHeadless
+public class ServerGame extends Mayflower
 {
     private Map<Integer, Actor> actors;
     private ServerWorld world;
@@ -29,35 +30,22 @@ public class ServerGame extends MayflowerHeadless
 
     public void process(int i, String s)
     {
-        Actor actor = actors.get(i);
-        String[] split = s.split(" ");
-        if(actor != null)
+        System.out.println(s);
+        List<Actor> actors = new LinkedList<Actor>();
+        String[] parts = s.split(":");
+        for(String part : parts)
         {
-            switch(split[0])
-            {
-                case "up":
-                    actor.setRotation(Direction.NORTH);
-                    break;
-                case "down":
-                    actor.setRotation(Direction.SOUTH);
-                    break;
-                case "left":
-                    actor.setRotation(Direction.WEST);
-                    break;
-                case "right":
-                    actor.setRotation(Direction.EAST);
-                    break;
-                case "picked":
-                    String color = split[1];
-                    player.setColor(color);
-                    numPlayers++;
-                    if(numPlayers >= 4)
-                    {
-                        //start world
-                    }
+            if(!"".equals(part)) {
+                String[] parts2 = part.split(",");
+                String img = "rsrc/"+parts2[0]+"Selected.png";
+                int x = Integer.parseInt(parts2[1]);
+                int y = Integer.parseInt(parts2[2]);
+                int r = Integer.parseInt(parts2[3]);
+
+                actors.add(new GameActor(img, x, y, r));
             }
-            //actor.move(10);
         }
+        for(Actor temp:actors)world.addObject(temp,temp.getX(),temp.getY());
     }
 
     public void join(int i)

@@ -22,7 +22,7 @@ public class InputManager
     public void send(String message)
     {
         System.out.println(message);
-        client.send(message);
+        client.send(message+",100,100,0");
     }
 
     public InputManager(GameMode mode)
