@@ -25,6 +25,7 @@ public class ServerWorld extends World
     {
         super.addObject(a, x, y);
         System.out.println("Adding: "+ a + " to " + x +", " + y);
+        System.out.println("this.0");
     }
 
     @Override
